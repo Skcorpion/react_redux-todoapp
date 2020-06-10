@@ -8,9 +8,14 @@ export interface IById {
   [key: string]: ITodo;
 }
 
+export interface IFilter {
+  ids: string[];
+  isFetching: boolean;
+}
+
 export interface RootState {
   byId: IById;
   listByFilter: {
-    [key: string]: string[];
+    [key: string]: IFilter;
   };
 }

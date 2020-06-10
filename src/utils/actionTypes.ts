@@ -4,6 +4,7 @@ import { ITodo } from './interfaces';
  * action types
  */
 export enum ActionTypes {
+  REQUEST_TODOS = 'REQUEST_TODOS',
   RECEIVE_TODOS = 'RECEIVE_TODOS',
   ADD_TODO = 'ADD_TODO',
   TOGGLE_TODO = 'TOGGLE_TODO',
@@ -21,6 +22,10 @@ export enum FilterTypes {
 /*
  * actions
  */
+interface RequestTodosAction {
+  type: typeof ActionTypes.REQUEST_TODOS;
+  filter: string;
+}
 interface ReceiveTodosAction {
   type: typeof ActionTypes.RECEIVE_TODOS;
   filter: string;
@@ -36,4 +41,8 @@ interface ToggleTodoAction {
   id: string;
 }
 
-export type Actions = ReceiveTodosAction | AddTodoAction | ToggleTodoAction;
+export type Actions =
+  | RequestTodosAction
+  | ReceiveTodosAction
+  | AddTodoAction
+  | ToggleTodoAction;
