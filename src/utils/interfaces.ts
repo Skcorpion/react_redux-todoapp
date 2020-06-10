@@ -4,17 +4,15 @@ export interface ITodo {
   completed: boolean;
 }
 
-// export interface RootState {
-//   todos: ITodo[];
-// }
-
 export interface IById {
   [key: string]: ITodo;
 }
 
 export interface ITodos {
   byId: IById;
-  allIds: string[];
+  idsByFilter: {
+    [key: string]: string[];
+  };
 }
 
 export interface RootState {
