@@ -8,13 +8,9 @@ export interface IById {
   [key: string]: ITodo;
 }
 
-export interface ITodos {
+export interface RootState {
   byId: IById;
-  idsByFilter: {
+  listByFilter: {
     [key: string]: string[];
   };
-}
-
-export interface RootState {
-  todos: ITodos;
 }
