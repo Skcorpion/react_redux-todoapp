@@ -1,8 +1,9 @@
 import { v4 } from 'node-uuid';
 import { ActionTypes, Actions } from '../utils/actionTypes';
-import { ITodo } from '../utils/interfaces';
+import { ITodo, RootState } from '../utils/interfaces';
 import * as api from '../api';
 import { Dispatch } from 'react';
+import { getIsFetching } from '../reducers';
 
 /*
  * action creators
@@ -18,13 +19,20 @@ const receiveTodos = (filter: string, response: ITodo[]): Actions => ({
   response,
 });
 
-export const fetchTodos = (filter: string) =>
-  async function (dispatch: Dispatch<Actions>) {
-    dispatch(requestTodos(filter));
+export const fetchTodos = (filter: string) => (
+  dispatch: Dispatch<Actions>,
+  getState: () => RootState
+) => {
+  if (getIsFetching(getState(), filter)) {
+    return Promise.resolve();
+  }
 
-    const response = await api.fetchTodos(filter);
-    dispatch(receiveTodos(filter, response));
-  };
+  dispatch(requestTodos(filter));
+
+  return api
+    .fetchTodos(filter)
+    .then((response) => dispatch(receiveTodos(filter, response)));
+};
 
 export const addTodo = (text: string): Actions => ({
   type: ActionTypes.ADD_TODO,
