@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { toggleTodo } from '../actions';
+import * as actions from '../actions';
 import Todo from './Todo';
 import { RootState } from '../utils/interfaces';
 import { getVisibleTodos } from '../reducers';
@@ -12,21 +12,22 @@ type Props = {
 
 class VisibleTodoList extends Component<ConnectedProps<typeof connector>> {
   componentDidMount() {
-    fetchTodos(this.props.filter).then((todos) =>
-      console.log(this.props.filter, todos)
-    );
+    this.fetchData();
   }
 
   componentDidUpdate(prevProps: ConnectedProps<typeof connector>) {
     if (this.props.filter !== prevProps.filter) {
-      fetchTodos(this.props.filter).then((todos) =>
-        console.log(this.props.filter, todos)
-      );
+      this.fetchData();
     }
   }
 
+  fetchData() {
+    const { filter, receiveTodos } = this.props;
+    fetchTodos(this.props.filter).then((todos) => receiveTodos(filter, todos));
+  }
+
   render() {
-    const { todos, onTodoClick } = this.props;
+    const { todos, toggleTodo: onTodoClick } = this.props;
     return (
       <ul>
         {todos.map((todo) => (
@@ -45,5 +46,5 @@ const mapStateToProps = (state: RootState, ownProps: Props) => {
   };
 };
 
-const connector = connect(mapStateToProps, { onTodoClick: toggleTodo });
+const connector = connect(mapStateToProps, actions);
 export default connector(VisibleTodoList);

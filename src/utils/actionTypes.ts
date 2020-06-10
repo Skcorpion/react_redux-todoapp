@@ -1,7 +1,10 @@
+import { ITodo } from './interfaces';
+
 /*
  * action types
  */
 export enum ActionTypes {
+  RECEIVE_TODOS = 'RECEIVE_TODOS',
   ADD_TODO = 'ADD_TODO',
   TOGGLE_TODO = 'TOGGLE_TODO',
 }
@@ -18,6 +21,11 @@ export enum FilterTypes {
 /*
  * actions
  */
+interface ReceiveTodosAction {
+  type: typeof ActionTypes.RECEIVE_TODOS;
+  filter: string;
+  response: ITodo[];
+}
 interface AddTodoAction {
   type: typeof ActionTypes.ADD_TODO;
   id: string;
@@ -28,4 +36,4 @@ interface ToggleTodoAction {
   id: string;
 }
 
-export type Actions = AddTodoAction | ToggleTodoAction;
+export type Actions = ReceiveTodosAction | AddTodoAction | ToggleTodoAction;
