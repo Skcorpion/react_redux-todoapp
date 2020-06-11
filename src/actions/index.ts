@@ -54,7 +54,12 @@ export const addTodo = (text: string) => (dispatch: Dispatch<Actions>) =>
     dispatch(addTodoSuccess(response));
   });
 
-export const toggleTodo = (id: string): Actions => ({
-  type: ActionTypes.TOGGLE_TODO,
-  id,
+const toggleTodoSuccess = (response: ITodo): Actions => ({
+  type: ActionTypes.TOGGLE_TODO_SUCCESS,
+  response,
 });
+
+export const toggleTodo = (id: string) => (dispatch: Dispatch<Actions>) =>
+  api.toggleTodo(id).then((response) => {
+    dispatch(toggleTodoSuccess(response));
+  });

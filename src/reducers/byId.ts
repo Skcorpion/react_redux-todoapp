@@ -10,10 +10,12 @@ export default (state: IById = {}, action: Actions) => {
       });
       return nextState;
     case ActionTypes.ADD_TODO_SUCCESS:
+    case ActionTypes.TOGGLE_TODO_SUCCESS:
       return {
         ...state,
         [action.response.id]: action.response,
       };
+
     default:
       return state;
   }

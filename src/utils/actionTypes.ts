@@ -8,7 +8,7 @@ export enum ActionTypes {
   FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS',
   FETCH_TODOS_FAILURE = 'FETCH_TODOS_FAILURE',
   ADD_TODO_SUCCESS = 'ADD_TODO_SUCCESS',
-  TOGGLE_TODO = 'TOGGLE_TODO',
+  TOGGLE_TODO_SUCCESS = 'TOGGLE_TODO_SUCCESS',
 }
 
 /*
@@ -41,9 +41,9 @@ interface AddTodoSuccessAction {
   type: typeof ActionTypes.ADD_TODO_SUCCESS;
   response: ITodo;
 }
-interface ToggleTodoAction {
-  type: typeof ActionTypes.TOGGLE_TODO;
-  id: string;
+interface ToggleTodoSuccessAction {
+  type: typeof ActionTypes.TOGGLE_TODO_SUCCESS;
+  response: ITodo;
 }
 
 export type Actions =
@@ -51,4 +51,4 @@ export type Actions =
   | FetchTodosSuccessAction
   | FetchTodosFailureAction
   | AddTodoSuccessAction
-  | ToggleTodoAction;
+  | ToggleTodoSuccessAction;

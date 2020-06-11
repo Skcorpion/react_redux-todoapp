@@ -3,6 +3,19 @@ import { combineReducers } from 'redux';
 import { IFilter } from '../utils/interfaces';
 
 export default (filter: string) => {
+  const handleToggle = (state: string[], action: Actions) => {
+    switch (action.type) {
+      case ActionTypes.TOGGLE_TODO_SUCCESS:
+        const { completed, id: toggledId } = action.response;
+        const shouldRemove =
+          (completed && filter === FilterTypes.SHOW_ACTIVE) ||
+          (!completed && filter === FilterTypes.SHOW_COMPLETED);
+        return shouldRemove ? state.filter((id) => id !== toggledId) : state;
+      default:
+        return state;
+    }
+  };
+
   const ids = (state: string[] = [], action: Actions) => {
     switch (action.type) {
       case ActionTypes.FETCH_TODOS_SUCCESS:
@@ -13,6 +26,8 @@ export default (filter: string) => {
         return filter !== FilterTypes.SHOW_COMPLETED
           ? [...state, action.response.id]
           : state;
+      case ActionTypes.TOGGLE_TODO_SUCCESS:
+        return handleToggle(state, action);
       default:
         return state;
     }
