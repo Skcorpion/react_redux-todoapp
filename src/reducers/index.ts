@@ -20,3 +20,6 @@ export const getVisibleTodos = (state: RootState, filter: string) => {
 
 export const getIsFetching = (state: RootState, filter: string) =>
   fromList.getIsFetching(state.listByFilter[filter]);
+
+export const getErrorMessage = (state: RootState, filter: string) =>
+  fromList.getErrorMessage(state.listByFilter[filter]);

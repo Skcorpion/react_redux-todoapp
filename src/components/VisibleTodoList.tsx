@@ -3,7 +3,8 @@ import { connect, ConnectedProps } from 'react-redux';
 import * as actions from '../actions';
 import Todo from './Todo';
 import { RootState } from '../utils/interfaces';
-import { getVisibleTodos, getIsFetching } from '../reducers';
+import { getVisibleTodos, getIsFetching, getErrorMessage } from '../reducers';
+import FetchError from './FetchError';
 
 type Props = {
   filter: string;
@@ -26,9 +27,19 @@ class VisibleTodoList extends Component<ConnectedProps<typeof connector>> {
   }
 
   render() {
-    const { todos, isFetching, toggleTodo: onTodoClick } = this.props;
+    const {
+      todos,
+      isFetching,
+      errorMessage,
+      toggleTodo: onTodoClick,
+    } = this.props;
     if (isFetching && !todos.length) {
       return <p>Loading...</p>;
+    }
+    if (errorMessage && !todos.length) {
+      return (
+        <FetchError message={errorMessage} onRetry={() => this.fetchData()} />
+      );
     }
 
     return (
@@ -46,6 +57,7 @@ const mapStateToProps = (state: RootState, ownProps: Props) => {
   return {
     todos: getVisibleTodos(state, filter),
     isFetching: getIsFetching(state, filter),
+    errorMessage: getErrorMessage(state, filter),
     filter,
   };
 };

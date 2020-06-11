@@ -11,6 +11,7 @@ export interface IById {
 export interface IFilter {
   ids: string[];
   isFetching: boolean;
+  errorMessage: string | null;
 }
 
 export interface RootState {

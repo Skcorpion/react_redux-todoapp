@@ -6,6 +6,7 @@ import { ITodo } from './interfaces';
 export enum ActionTypes {
   REQUEST_TODOS = 'REQUEST_TODOS',
   RECEIVE_TODOS = 'RECEIVE_TODOS',
+  FETCH_TODOS_FAILURE = 'FETCH_TODOS_FAILURE',
   ADD_TODO = 'ADD_TODO',
   TOGGLE_TODO = 'TOGGLE_TODO',
 }
@@ -31,6 +32,11 @@ interface ReceiveTodosAction {
   filter: string;
   response: ITodo[];
 }
+interface FetchTodosFailureAction {
+  type: typeof ActionTypes.FETCH_TODOS_FAILURE;
+  filter: string;
+  message: string;
+}
 interface AddTodoAction {
   type: typeof ActionTypes.ADD_TODO;
   id: string;
@@ -44,5 +50,6 @@ interface ToggleTodoAction {
 export type Actions =
   | RequestTodosAction
   | ReceiveTodosAction
+  | FetchTodosFailureAction
   | AddTodoAction
   | ToggleTodoAction;

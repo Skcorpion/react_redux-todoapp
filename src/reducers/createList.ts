@@ -23,6 +23,7 @@ export default (filter: string) => {
         }
         return action.filter !== filter ? state : true;
       case ActionTypes.RECEIVE_TODOS:
+      case ActionTypes.FETCH_TODOS_FAILURE:
         if (action.filter !== filter) {
           return state;
         }
@@ -32,8 +33,27 @@ export default (filter: string) => {
     }
   };
 
-  return combineReducers({ ids, isFetching });
+  const errorMessage = (state: string | null = null, action: Actions) => {
+    switch (action.type) {
+      case ActionTypes.FETCH_TODOS_FAILURE:
+        if (action.filter !== filter) {
+          return state;
+        }
+        return action.message;
+      case ActionTypes.REQUEST_TODOS:
+      case ActionTypes.RECEIVE_TODOS:
+        if (action.filter !== filter) {
+          return state;
+        }
+        return null;
+      default:
+        return state;
+    }
+  };
+
+  return combineReducers({ ids, isFetching, errorMessage });
 };
 
 export const getIds = (state: IFilter) => state.ids;
 export const getIsFetching = (state: IFilter) => state.isFetching;
+export const getErrorMessage = (state: IFilter) => state.errorMessage;

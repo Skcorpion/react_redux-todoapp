@@ -19,6 +19,12 @@ const receiveTodos = (filter: string, response: ITodo[]): Actions => ({
   response,
 });
 
+const fetchTodosFailure = (filter: string, message: string): Actions => ({
+  type: ActionTypes.FETCH_TODOS_FAILURE,
+  filter,
+  message: message || 'Something went wrong.',
+});
+
 export const fetchTodos = (filter: string) => (
   dispatch: Dispatch<Actions>,
   getState: () => RootState
@@ -29,9 +35,14 @@ export const fetchTodos = (filter: string) => (
 
   dispatch(requestTodos(filter));
 
-  return api
-    .fetchTodos(filter)
-    .then((response) => dispatch(receiveTodos(filter, response)));
+  return api.fetchTodos(filter).then(
+    (response) => {
+      dispatch(receiveTodos(filter, response));
+    },
+    (error) => {
+      dispatch(fetchTodosFailure(filter, error.message));
+    }
+  );
 };
 
 export const addTodo = (text: string): Actions => ({
