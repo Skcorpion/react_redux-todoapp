@@ -4,10 +4,10 @@ import { ITodo } from './interfaces';
  * action types
  */
 export enum ActionTypes {
-  REQUEST_TODOS = 'REQUEST_TODOS',
-  RECEIVE_TODOS = 'RECEIVE_TODOS',
+  FETCH_TODOS_REQUEST = 'FETCH_TODOS_REQUEST',
+  FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS',
   FETCH_TODOS_FAILURE = 'FETCH_TODOS_FAILURE',
-  ADD_TODO = 'ADD_TODO',
+  ADD_TODO_SUCCESS = 'ADD_TODO_SUCCESS',
   TOGGLE_TODO = 'TOGGLE_TODO',
 }
 
@@ -23,12 +23,12 @@ export enum FilterTypes {
 /*
  * actions
  */
-interface RequestTodosAction {
-  type: typeof ActionTypes.REQUEST_TODOS;
+interface FetchTodosRequestAction {
+  type: typeof ActionTypes.FETCH_TODOS_REQUEST;
   filter: string;
 }
-interface ReceiveTodosAction {
-  type: typeof ActionTypes.RECEIVE_TODOS;
+interface FetchTodosSuccessAction {
+  type: typeof ActionTypes.FETCH_TODOS_SUCCESS;
   filter: string;
   response: ITodo[];
 }
@@ -37,10 +37,9 @@ interface FetchTodosFailureAction {
   filter: string;
   message: string;
 }
-interface AddTodoAction {
-  type: typeof ActionTypes.ADD_TODO;
-  id: string;
-  text: string;
+interface AddTodoSuccessAction {
+  type: typeof ActionTypes.ADD_TODO_SUCCESS;
+  response: ITodo;
 }
 interface ToggleTodoAction {
   type: typeof ActionTypes.TOGGLE_TODO;
@@ -48,8 +47,8 @@ interface ToggleTodoAction {
 }
 
 export type Actions =
-  | RequestTodosAction
-  | ReceiveTodosAction
+  | FetchTodosRequestAction
+  | FetchTodosSuccessAction
   | FetchTodosFailureAction
-  | AddTodoAction
+  | AddTodoSuccessAction
   | ToggleTodoAction;

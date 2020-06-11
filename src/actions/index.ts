@@ -1,4 +1,3 @@
-import { v4 } from 'node-uuid';
 import { ActionTypes, Actions } from '../utils/actionTypes';
 import { ITodo, RootState } from '../utils/interfaces';
 import * as api from '../api';
@@ -8,13 +7,13 @@ import { getIsFetching } from '../reducers';
 /*
  * action creators
  */
-const requestTodos = (filter: string): Actions => ({
-  type: ActionTypes.REQUEST_TODOS,
+const fetchTodosRequest = (filter: string): Actions => ({
+  type: ActionTypes.FETCH_TODOS_REQUEST,
   filter,
 });
 
-const receiveTodos = (filter: string, response: ITodo[]): Actions => ({
-  type: ActionTypes.RECEIVE_TODOS,
+const fetchTodosSuccess = (filter: string, response: ITodo[]): Actions => ({
+  type: ActionTypes.FETCH_TODOS_SUCCESS,
   filter,
   response,
 });
@@ -33,11 +32,11 @@ export const fetchTodos = (filter: string) => (
     return Promise.resolve();
   }
 
-  dispatch(requestTodos(filter));
+  dispatch(fetchTodosRequest(filter));
 
   return api.fetchTodos(filter).then(
     (response) => {
-      dispatch(receiveTodos(filter, response));
+      dispatch(fetchTodosSuccess(filter, response));
     },
     (error) => {
       dispatch(fetchTodosFailure(filter, error.message));
@@ -45,11 +44,15 @@ export const fetchTodos = (filter: string) => (
   );
 };
 
-export const addTodo = (text: string): Actions => ({
-  type: ActionTypes.ADD_TODO,
-  id: v4(),
-  text,
+const addTodoSuccess = (response: ITodo): Actions => ({
+  type: ActionTypes.ADD_TODO_SUCCESS,
+  response,
 });
+
+export const addTodo = (text: string) => (dispatch: Dispatch<Actions>) =>
+  api.addTodo(text).then((response) => {
+    dispatch(addTodoSuccess(response));
+  });
 
 export const toggleTodo = (id: string): Actions => ({
   type: ActionTypes.TOGGLE_TODO,

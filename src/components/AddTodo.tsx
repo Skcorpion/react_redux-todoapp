@@ -1,13 +1,8 @@
-import React, { FC, Dispatch } from 'react';
-import { connect } from 'react-redux';
+import React, { FC } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { addTodo } from '../actions';
-import { Actions } from '../utils/actionTypes';
 
-type Props = {
-  dispatch: Dispatch<Actions>;
-};
-
-const AddTodo: FC<Props> = ({ dispatch }) => {
+const AddTodo: FC<ConnectedProps<typeof connector>> = ({ addTodo }) => {
   let input: HTMLInputElement;
   return (
     <div>
@@ -18,7 +13,7 @@ const AddTodo: FC<Props> = ({ dispatch }) => {
       />
       <button
         onClick={() => {
-          dispatch(addTodo(input.value));
+          addTodo(input.value);
           input.value = '';
         }}
       >
@@ -28,4 +23,6 @@ const AddTodo: FC<Props> = ({ dispatch }) => {
   );
 };
 
-export default connect()(AddTodo);
+const connector = connect(null, { addTodo });
+
+export default connector(AddTodo);
